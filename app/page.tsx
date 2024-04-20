@@ -18,9 +18,8 @@ function Card({ front, back } : { front: string, back: string }) {
   }
 
   return (
-    <div className="border-4 border-black-100/100">
+    <div className="card card-bordered w-fit p-8" onClick={handleClick}>
       <h1>{value}</h1>
-      <button onClick={handleClick}>{clicked ? 'Show back' : 'Show front'}</button>
     </div>
   )
 }
@@ -32,7 +31,8 @@ export default function Home() {
 
   const handleButton = (e: any) => {
     setFlashcards([...flashcards, {front: frontValue, back: backValue}])
-    console.log(flashcards)
+    setFrontValue('');
+    setBackValue('');
   }
 
   const handleFrontChange = (e: any) => {
@@ -44,15 +44,21 @@ export default function Home() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      {flashcards.map(flashcard => (
-        <Card front={flashcard.front} back={flashcard.back}></Card>
-      ))}
-      <form>
-        <input type='text' placeholder='Front value' onChange={handleFrontChange} value={frontValue}></input>
-        <input type='text' placeholder='Back value' onChange={handleBackChange} value={backValue}></input>
-        <button type='button' onClick={handleButton}>Submit</button>
-      </form>
+    <main className="flex flex-col">
+      <div>
+        <h1>Add new card</h1>
+        <form className='flex flex-col w-min'>
+          <input className='input input-bordered' type='text' placeholder='Front value' onChange={handleFrontChange} value={frontValue}></input>
+          <input className='input input-bordered' type='text' placeholder='Back value' onChange={handleBackChange} value={backValue}></input>
+          <button className='btn' type='button' onClick={handleButton}>Add card</button>
+        </form>
+      </div>
+      <h1>Current cards</h1>
+      <div className='flex'>
+        {flashcards.map(flashcard => (
+          <Card front={flashcard.front} back={flashcard.back}></Card>
+        ))}
+      </div>
     </main>
   );
 }

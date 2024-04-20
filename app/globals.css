@@ -2,10 +2,4 @@
 @tailwind components;
 @tailwind utilities;
 
-div {
-  color: rgb(0, 0, 0)
-}
 
-.card-container {
-  border-color: black;
-}
