@@ -19,7 +19,7 @@ function Card({ front, back } : { front: string, back: string }) {
 
   return (
     <div className="card card-bordered w-fit p-8" onClick={handleClick}>
-      <h1>{value}</h1>
+      <h1 className='select-none'>{value}</h1>
     </div>
   )
 }
@@ -44,19 +44,19 @@ export default function Home() {
   }
 
   return (
-    <main className="flex flex-col">
+    <main className="flex flex-col p-8">
       <div>
         <h1>Add new card</h1>
-        <form className='flex flex-col w-min'>
+        <form className='flex flex-col w-min p-4 space-y-4'>
           <input className='input input-bordered' type='text' placeholder='Front value' onChange={handleFrontChange} value={frontValue}></input>
           <input className='input input-bordered' type='text' placeholder='Back value' onChange={handleBackChange} value={backValue}></input>
           <button className='btn' type='button' onClick={handleButton}>Add card</button>
         </form>
       </div>
-      <h1>Current cards</h1>
-      <div className='flex'>
-        {flashcards.map(flashcard => (
-          <Card front={flashcard.front} back={flashcard.back}></Card>
+      <h1 className="pb-4">Current cards</h1>
+      <div className='flex space-x-4'>
+        {flashcards.map((flashcard, index) => (
+          <Card key={index} front={flashcard.front} back={flashcard.back}></Card>
         ))}
       </div>
     </main>
