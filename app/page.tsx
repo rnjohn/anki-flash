@@ -1,30 +1,11 @@
 'use client';
-import Image from 'next/image';
-import { useState, FormEvent } from 'react';
-import mongoose from 'mongoose';
-
-mongoose.connect('mongodb://localhost/test');
+import { useState } from 'react';
+import Card from '@/app/components/Card';
 
 type flashcard = {
   front: string;
   back: string;
 };
-
-function Card({ front, back }: { front: string; back: string }) {
-  const [clicked, setClicked] = useState(false);
-  const [value, setValue] = useState(front);
-
-  const handleClick = (e: any) => {
-    setValue(clicked ? front : back);
-    setClicked(!clicked);
-  };
-
-  return (
-    <div className="card card-bordered w-fit p-8" onClick={handleClick}>
-      <h1 className="select-none">{value}</h1>
-    </div>
-  );
-}
 
 export default function Home() {
   const [flashcards, setFlashcards] = useState<flashcard[]>([]);
