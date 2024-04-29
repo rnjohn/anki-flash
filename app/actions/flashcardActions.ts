@@ -10,6 +10,7 @@ const addFlashcard = async (frontValue: string, backValue: string) => {
 const getFlashcards = async () => {
     const flashcards = await Flashcard.find();
 
+    if (!flashcards) return [];
     return JSON.parse(JSON.stringify(flashcards))
 }
 

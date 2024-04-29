@@ -77,15 +77,16 @@ export default function Home() {
       </div>
       <h1 className="pb-4">Current cards</h1>
       <div className="flex space-x-4">
-        {flashcards.map((flashcard, index) => (
-          <Card
-            key={index}
-            index={index}
-            front={flashcard.front}
-            back={flashcard.back}
-            handleRemoval={handleRemoval}
-          ></Card>
-        ))}
+        {flashcards &&
+          flashcards.map((flashcard, index) => (
+            <Card
+              key={index}
+              index={index}
+              front={flashcard.front}
+              back={flashcard.back}
+              handleRemoval={handleRemoval}
+            ></Card>
+          ))}
       </div>
     </main>
   );
