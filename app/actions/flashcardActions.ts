@@ -2,16 +2,15 @@
 
 import Flashcard from '@/app/models/flashcard';
 
-const addFlashcard = async (card: any) => {
-    const front = card.get('front')
-    const back = card.get('back')
-
-    const newCard = new Flashcard({ front, back });
+const addFlashcard = async (frontValue: string, backValue: string) => {
+    const newCard = new Flashcard({ front: frontValue, back: backValue });
     await newCard.save();
 }
 
 const getFlashcards = async () => {
-    return Flashcard.find()
+    const flashcards = await Flashcard.find();
+
+    return JSON.parse(JSON.stringify(flashcards))
 }
 
 export { addFlashcard, getFlashcards }

@@ -1,6 +1,7 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Card from '@/app/components/Card';
+import { addFlashcard, getFlashcards } from './actions/flashcardActions';
 
 type flashcard = {
   front: string;
@@ -12,10 +13,20 @@ export default function Home() {
   const [frontValue, setFrontValue] = useState('');
   const [backValue, setBackValue] = useState('');
 
+  useEffect(() => {
+    try {
+      getFlashcards().then((data) => {
+        setFlashcards(data);
+      });
+    } catch (error: any) {}
+  }, []);
+
   const handleButton = (e: any) => {
+    e.preventDefault();
     setFlashcards([...flashcards, { front: frontValue, back: backValue }]);
     setFrontValue('');
     setBackValue('');
+    addFlashcard(frontValue, backValue);
   };
 
   const handleFrontChange = (e: any) => {
@@ -36,6 +47,7 @@ export default function Home() {
             type="text"
             placeholder="Front value"
             onChange={handleFrontChange}
+            name={'front'}
             value={frontValue}
           ></input>
           <input
@@ -43,9 +55,10 @@ export default function Home() {
             type="text"
             placeholder="Back value"
             onChange={handleBackChange}
+            name={'back'}
             value={backValue}
           ></input>
-          <button className="btn" type="button" onClick={handleButton}>
+          <button className="btn" onClick={handleButton}>
             Add card
           </button>
         </form>

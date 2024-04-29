@@ -14,7 +14,7 @@ An app to use Spaced Repetition Flashcards (just like Anki) and basically an exc
 - [x] Add mongoDB/mongoose properly to the project
 - [ ] Add creating new users on db (using models)
 - [x] Add creating new flashcards on db (using models)
-- [ ] Add showing the flashcards from db on ui
+- [x] Add showing the flashcards from db on ui
 - [ ] Add updating flashcards on db
 - [ ] Add option to update flashcards on ui
 - [ ] Add deletion of flashcards on db
