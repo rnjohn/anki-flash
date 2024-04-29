@@ -17,8 +17,8 @@ An app to use Spaced Repetition Flashcards (just like Anki) and basically an exc
 - [x] Add showing the flashcards from db on ui
 - [ ] Add updating flashcards on db
 - [ ] Add option to update flashcards on ui
-- [ ] Add deletion of flashcards on db
-- [ ] Add option to delete flashcards on ui
+- [x] Add deletion of flashcards on db
+- [x] Add option to delete flashcards on ui
 - [ ] Check options for authentication
 - [ ] Add authentication to the project
 - [ ] Add image uploading to the flashcards

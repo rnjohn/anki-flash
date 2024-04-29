@@ -13,4 +13,9 @@ const getFlashcards = async () => {
     return JSON.parse(JSON.stringify(flashcards))
 }
 
-export { addFlashcard, getFlashcards }
+const deleteFlashcard = async (frontValue: string, backValue: string) => {
+    console.log(frontValue, backValue)
+    await Flashcard.deleteOne({ front: frontValue, back: backValue });
+}
+
+export { addFlashcard, getFlashcards, deleteFlashcard }

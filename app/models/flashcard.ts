@@ -14,6 +14,6 @@ const flashcardSchema = new mongoose.Schema<IFlaschcard>({
     type: String,
     required: true
   },
-});
+}, { timestamps: true });
 
 export default mongoose.models.Flashcard || mongoose.model<IFlaschcard>('Flashcard', flashcardSchema);

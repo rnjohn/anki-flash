@@ -1,7 +1,11 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Card from '@/app/components/Card';
-import { addFlashcard, getFlashcards } from './actions/flashcardActions';
+import {
+  addFlashcard,
+  getFlashcards,
+  deleteFlashcard,
+} from './actions/flashcardActions';
 
 type flashcard = {
   front: string;
@@ -18,7 +22,9 @@ export default function Home() {
       getFlashcards().then((data) => {
         setFlashcards(data);
       });
-    } catch (error: any) {}
+    } catch (error: any) {
+      console.log('Error when retrieving flashcards from db');
+    }
   }, []);
 
   const handleButton = (e: any) => {
@@ -35,6 +41,12 @@ export default function Home() {
 
   const handleBackChange = (e: any) => {
     setBackValue(e.target.value);
+  };
+
+  const handleRemoval = (index: number, front: string, back: string) => {
+    console.log(index);
+    setFlashcards(flashcards.filter((flashcard, i) => index !== i));
+    deleteFlashcard(front, back);
   };
 
   return (
@@ -68,8 +80,10 @@ export default function Home() {
         {flashcards.map((flashcard, index) => (
           <Card
             key={index}
+            index={index}
             front={flashcard.front}
             back={flashcard.back}
+            handleRemoval={handleRemoval}
           ></Card>
         ))}
       </div>
