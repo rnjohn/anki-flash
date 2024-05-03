@@ -50,8 +50,10 @@ export default function Home() {
   };
 
   const handleRemoval = (id: string) => {
-    deleteFlashcard(id).then(() => {
-      setFlashcards(flashcards.filter((flashcard) => flashcard._id != id));
+    deleteFlashcard(id).then((deletedId) => {
+      setFlashcards(
+        flashcards.filter((flashcard) => flashcard._id != deletedId),
+      );
     });
   };
 
@@ -84,10 +86,10 @@ export default function Home() {
       <h1 className="pb-4">Current cards</h1>
       <div className="flex space-x-4">
         {flashcards &&
-          flashcards.map((flashcard, index) => (
+          flashcards.map((flashcard) => (
             <Card
-              key={flashcard._id || index}
-              index={flashcard._id || index}
+              key={flashcard._id}
+              id={flashcard._id}
               front={flashcard.front}
               back={flashcard.back}
               handleRemoval={handleRemoval}

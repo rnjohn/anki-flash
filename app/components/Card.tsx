@@ -1,12 +1,12 @@
 import { useState } from 'react';
 
 export default function Card({
-  index,
+  id,
   front,
   back,
   handleRemoval,
 }: {
-  index: number;
+  id: string;
   front: string;
   back: string;
   handleRemoval: Function;
@@ -23,7 +23,7 @@ export default function Card({
     <div className="card card-bordered w-fit p-8 outline" onClick={handleClick}>
       <button
         className="btn btn-square outline"
-        onClick={() => handleRemoval(index, front, back)}
+        onClick={() => handleRemoval(id)}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

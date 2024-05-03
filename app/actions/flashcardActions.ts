@@ -15,8 +15,10 @@ const getFlashcards = async () => {
     return parsedFlashcards;
 }
 
-const deleteFlashcard = async (index: string) => {
-    await Flashcard.deleteOne({ _id: index });
+const deleteFlashcard = async (id: string) => {
+    const deleted = await Flashcard.findByIdAndDelete(id);
+    const parsedDeleted = JSON.parse(JSON.stringify(deleted));
+    return parsedDeleted._id;
 }
 
 export { addFlashcard, getFlashcards, deleteFlashcard }
