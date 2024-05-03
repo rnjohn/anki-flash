@@ -8,6 +8,7 @@ import {
 } from './actions/flashcardActions';
 
 type flashcard = {
+  _id: string;
   front: string;
   back: string;
 };
@@ -20,6 +21,7 @@ export default function Home() {
   useEffect(() => {
     try {
       getFlashcards().then((data) => {
+        console.log('FETCHED FLASHCARDS');
         setFlashcards(data);
       });
     } catch (error: any) {
@@ -29,10 +31,14 @@ export default function Home() {
 
   const handleButton = (e: any) => {
     e.preventDefault();
-    setFlashcards([...flashcards, { front: frontValue, back: backValue }]);
     setFrontValue('');
     setBackValue('');
-    addFlashcard(frontValue, backValue);
+    addFlashcard(frontValue, backValue).then((id) => {
+      setFlashcards([
+        ...flashcards,
+        { _id: id, front: frontValue, back: backValue },
+      ]);
+    });
   };
 
   const handleFrontChange = (e: any) => {
@@ -43,10 +49,10 @@ export default function Home() {
     setBackValue(e.target.value);
   };
 
-  const handleRemoval = (index: number, front: string, back: string) => {
-    console.log(index);
-    setFlashcards(flashcards.filter((flashcard, i) => index !== i));
-    deleteFlashcard(front, back);
+  const handleRemoval = (id: string) => {
+    deleteFlashcard(id).then(() => {
+      setFlashcards(flashcards.filter((flashcard) => flashcard._id != id));
+    });
   };
 
   return (
@@ -80,8 +86,8 @@ export default function Home() {
         {flashcards &&
           flashcards.map((flashcard, index) => (
             <Card
-              key={index}
-              index={index}
+              key={flashcard._id || index}
+              index={flashcard._id || index}
               front={flashcard.front}
               back={flashcard.back}
               handleRemoval={handleRemoval}

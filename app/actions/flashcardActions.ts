@@ -4,19 +4,19 @@ import Flashcard from '@/app/models/flashcard';
 
 const addFlashcard = async (frontValue: string, backValue: string) => {
     const newCard = new Flashcard({ front: frontValue, back: backValue });
-    await newCard.save();
+    const savedCard = await newCard.save();
+    const parsedId = JSON.parse(JSON.stringify(savedCard))._id;
+    return parsedId;
 }
 
 const getFlashcards = async () => {
     const flashcards = await Flashcard.find();
-
-    if (!flashcards) return [];
-    return JSON.parse(JSON.stringify(flashcards))
+    const parsedFlashcards = JSON.parse(JSON.stringify(flashcards));
+    return parsedFlashcards;
 }
 
-const deleteFlashcard = async (frontValue: string, backValue: string) => {
-    console.log(frontValue, backValue)
-    await Flashcard.deleteOne({ front: frontValue, back: backValue });
+const deleteFlashcard = async (index: string) => {
+    await Flashcard.deleteOne({ _id: index });
 }
 
 export { addFlashcard, getFlashcards, deleteFlashcard }
