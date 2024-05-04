@@ -15,10 +15,10 @@ An app to use Spaced Repetition Flashcards (just like Anki) and basically an exc
 - [x] Add showing the flashcards from db on ui
 - [x] Add deletion of flashcards on db
 - [x] Add option to delete flashcards on ui
-- [ ] Add updating the cards on UI from db after creating it
-- [ ] Add option to open modal on each flashcard, to delete or update
-- [ ] Add updating flashcards on db
-- [ ] Add option to update flashcards on ui
+- [x] Add updating the cards on UI from db after creating it
+- [x] Add option to open modal on each flashcard, to delete or update
+- [x] Add updating flashcards on db
+- [x] Add option to update flashcards on ui
 - [ ] Add creating new users on db (using models)
 - [ ] Decide how the models of users should be
 - [ ] Check options for authentication
