@@ -3,16 +3,18 @@ import { useState, useEffect } from 'react';
 import Card from '@/app/components/Card';
 import { getFlashcards, deleteFlashcard } from './actions/flashcardActions';
 import NewFlashcardModal from './components/NewFlashcardModal';
-
-type flashcard = {
-  _id: string;
-  front: string;
-  back: string;
-};
+import EditFlashcardModal from './components/EditFlashcardModal';
+import flashcard from './types/flashcard';
 
 export default function Home() {
   const [flashcards, setFlashcards] = useState<flashcard[]>([]);
   const [visibleAddModal, setVisibleAddModal] = useState(false);
+  const [visibleEditModal, setVisibleEditModal] = useState(false);
+  const [currentEditFlashcard, setCurrentEditFlashcard] = useState<flashcard>({
+    _id: '',
+    front: '',
+    back: '',
+  });
 
   useEffect(() => {
     try {
@@ -35,27 +37,43 @@ export default function Home() {
     ]);
   };
 
-  const handleRemoval = (id: string) => {
-    deleteFlashcard(id).then((deletedId) => {
-      setFlashcards(
-        flashcards.filter((flashcard) => flashcard._id != deletedId),
-      );
-    });
+  const handleDeleteFlashcard = (id: string) => {
+    setFlashcards(flashcards.filter((flashcard) => flashcard._id != id));
   };
 
-  const handleModal = (e: any) => {
+  const handleAddModal = (e: any) => {
     e.preventDefault();
     setVisibleAddModal(true);
   };
 
-  const onCloseModal = () => {
+  const onCloseAddModal = () => {
     setVisibleAddModal(false);
+  };
+
+  const handleEditModal = (id: string, front: string, back: string) => {
+    setCurrentEditFlashcard({ _id: id, front, back });
+    setVisibleEditModal(true);
+  };
+
+  const onCloseEditModal = () => {
+    setCurrentEditFlashcard({ _id: '', front: '', back: '' });
+    setVisibleEditModal(false);
+  };
+
+  const handleEditFlashcard = (id: string, front: string, back: string) => {
+    let flashcardsCopy = [...flashcards];
+    let flashcardToEditIdx = flashcardsCopy.findIndex(
+      (flashcard) => flashcard._id == id,
+    );
+    flashcardsCopy[flashcardToEditIdx] = { _id: id, front, back };
+    setFlashcards(flashcardsCopy);
+    onCloseEditModal();
   };
 
   return (
     <main className="flex flex-col p-8">
       <div>
-        <button className="btn" onClick={handleModal}>
+        <button className="btn" onClick={handleAddModal}>
           Add new card
         </button>
       </div>
@@ -68,14 +86,21 @@ export default function Home() {
               id={flashcard._id}
               front={flashcard.front}
               back={flashcard.back}
-              handleRemoval={handleRemoval}
-            ></Card>
+              handleEditModal={handleEditModal}
+            />
           ))}
       </div>
       <NewFlashcardModal
         visible={visibleAddModal}
-        onClose={onCloseModal}
+        onClose={onCloseAddModal}
         getNewFlashcard={getNewFlashcard}
+      />
+      <EditFlashcardModal
+        visible={visibleEditModal}
+        onClose={onCloseEditModal}
+        currentEditFlashcard={currentEditFlashcard}
+        handleEditFlashcard={handleEditFlashcard}
+        handleDeleteFlashcard={handleDeleteFlashcard}
       />
     </main>
   );

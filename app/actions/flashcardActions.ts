@@ -16,7 +16,11 @@ const getFlashcards = async () => {
 }
 
 const editFlashcard = async (id: string, frontValue: string, backValue: string) => {
-
+    const flashcard = await Flashcard.findById(id);
+    flashcard.front = frontValue;
+    flashcard.back = backValue;
+    await flashcard.save();
+    return JSON.parse(JSON.stringify(flashcard));
 }
 
 const deleteFlashcard = async (id: string) => {
