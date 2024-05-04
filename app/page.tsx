@@ -1,11 +1,8 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Card from '@/app/components/Card';
-import {
-  addFlashcard,
-  getFlashcards,
-  deleteFlashcard,
-} from './actions/flashcardActions';
+import { getFlashcards, deleteFlashcard } from './actions/flashcardActions';
+import NewFlashcardModal from './components/NewFlashcardModal';
 
 type flashcard = {
   _id: string;
@@ -15,13 +12,11 @@ type flashcard = {
 
 export default function Home() {
   const [flashcards, setFlashcards] = useState<flashcard[]>([]);
-  const [frontValue, setFrontValue] = useState('');
-  const [backValue, setBackValue] = useState('');
+  const [visibleAddModal, setVisibleAddModal] = useState(false);
 
   useEffect(() => {
     try {
       getFlashcards().then((data) => {
-        console.log('FETCHED FLASHCARDS');
         setFlashcards(data);
       });
     } catch (error: any) {
@@ -29,24 +24,15 @@ export default function Home() {
     }
   }, []);
 
-  const handleButton = (e: any) => {
-    e.preventDefault();
-    setFrontValue('');
-    setBackValue('');
-    addFlashcard(frontValue, backValue).then((id) => {
-      setFlashcards([
-        ...flashcards,
-        { _id: id, front: frontValue, back: backValue },
-      ]);
-    });
-  };
-
-  const handleFrontChange = (e: any) => {
-    setFrontValue(e.target.value);
-  };
-
-  const handleBackChange = (e: any) => {
-    setBackValue(e.target.value);
+  const getNewFlashcard = (newFlashcard: flashcard) => {
+    setFlashcards([
+      ...flashcards,
+      {
+        _id: newFlashcard._id,
+        front: newFlashcard.front,
+        back: newFlashcard.back,
+      },
+    ]);
   };
 
   const handleRemoval = (id: string) => {
@@ -57,31 +43,21 @@ export default function Home() {
     });
   };
 
+  const handleModal = (e: any) => {
+    e.preventDefault();
+    setVisibleAddModal(true);
+  };
+
+  const onCloseModal = () => {
+    setVisibleAddModal(false);
+  };
+
   return (
     <main className="flex flex-col p-8">
       <div>
-        <h1>Add new card</h1>
-        <form className="flex flex-col w-min p-4 space-y-4">
-          <input
-            className="input input-bordered"
-            type="text"
-            placeholder="Front value"
-            onChange={handleFrontChange}
-            name={'front'}
-            value={frontValue}
-          ></input>
-          <input
-            className="input input-bordered"
-            type="text"
-            placeholder="Back value"
-            onChange={handleBackChange}
-            name={'back'}
-            value={backValue}
-          ></input>
-          <button className="btn" onClick={handleButton}>
-            Add card
-          </button>
-        </form>
+        <button className="btn" onClick={handleModal}>
+          Add new card
+        </button>
       </div>
       <h1 className="pb-4">Current cards</h1>
       <div className="flex space-x-4">
@@ -96,6 +72,11 @@ export default function Home() {
             ></Card>
           ))}
       </div>
+      <NewFlashcardModal
+        visible={visibleAddModal}
+        onClose={onCloseModal}
+        getNewFlashcard={getNewFlashcard}
+      />
     </main>
   );
 }

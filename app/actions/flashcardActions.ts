@@ -5,7 +5,7 @@ import Flashcard from '@/app/models/flashcard';
 const addFlashcard = async (frontValue: string, backValue: string) => {
     const newCard = new Flashcard({ front: frontValue, back: backValue });
     const savedCard = await newCard.save();
-    const parsedId = JSON.parse(JSON.stringify(savedCard))._id;
+    const parsedId = JSON.parse(JSON.stringify(savedCard));
     return parsedId;
 }
 
@@ -15,10 +15,14 @@ const getFlashcards = async () => {
     return parsedFlashcards;
 }
 
+const editFlashcard = async (id: string, frontValue: string, backValue: string) => {
+
+}
+
 const deleteFlashcard = async (id: string) => {
     const deleted = await Flashcard.findByIdAndDelete(id);
     const parsedDeleted = JSON.parse(JSON.stringify(deleted));
     return parsedDeleted._id;
 }
 
-export { addFlashcard, getFlashcards, deleteFlashcard }
+export { addFlashcard, getFlashcards, editFlashcard, deleteFlashcard }
