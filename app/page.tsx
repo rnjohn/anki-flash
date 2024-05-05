@@ -5,6 +5,7 @@ import { getFlashcards, deleteFlashcard } from './actions/flashcardActions';
 import NewFlashcardModal from './components/NewFlashcardModal';
 import EditFlashcardModal from './components/EditFlashcardModal';
 import flashcard from './types/flashcard';
+import CardList from './components/CardList';
 
 export default function Home() {
   const [flashcards, setFlashcards] = useState<flashcard[]>([]);
@@ -15,6 +16,7 @@ export default function Home() {
     front: '',
     back: '',
   });
+  const [counter, setCounter] = useState(0);
 
   useEffect(() => {
     try {
@@ -41,8 +43,7 @@ export default function Home() {
     setFlashcards(flashcards.filter((flashcard) => flashcard._id != id));
   };
 
-  const handleAddModal = (e: any) => {
-    e.preventDefault();
+  const handleAddModal = () => {
     setVisibleAddModal(true);
   };
 
@@ -67,6 +68,7 @@ export default function Home() {
     );
     flashcardsCopy[flashcardToEditIdx] = { _id: id, front, back };
     setFlashcards(flashcardsCopy);
+    setCounter(counter + 1);
     onCloseEditModal();
   };
 
@@ -78,18 +80,11 @@ export default function Home() {
         </button>
       </div>
       <h1 className="pb-4">Current cards</h1>
-      <div className="flex space-x-4">
-        {flashcards &&
-          flashcards.map((flashcard) => (
-            <Card
-              key={flashcard._id}
-              id={flashcard._id}
-              front={flashcard.front}
-              back={flashcard.back}
-              handleEditModal={handleEditModal}
-            />
-          ))}
-      </div>
+      <CardList
+        key={counter}
+        flashcards={flashcards}
+        handleEditModal={handleEditModal}
+      />
       <NewFlashcardModal
         visible={visibleAddModal}
         onClose={onCloseAddModal}

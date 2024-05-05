@@ -19,8 +19,7 @@ export default function Card({
     setClicked(!clicked);
   };
 
-  const handleOpenEditModal = (e: any) => {
-    e.preventDefault();
+  const handleOpenEditModal = () => {
     handleEditModal(id, front, back);
   };
 

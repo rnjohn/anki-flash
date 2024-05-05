@@ -14,8 +14,7 @@ function NewFlashcardModal({
   const [frontValue, setFrontValue] = useState('');
   const [backValue, setBackValue] = useState('');
 
-  const handleButton = (e: any) => {
-    e.preventDefault();
+  const handleButton = () => {
     setFrontValue('');
     setBackValue('');
     addFlashcard(frontValue, backValue).then((flashcard) => {
@@ -31,8 +30,7 @@ function NewFlashcardModal({
     visible ? modalRef.current.showModal() : modalRef.current.close();
   }, [visible]);
 
-  const handleClose = (e: any) => {
-    e.preventDefault();
+  const handleClose = () => {
     if (onClose) {
       onClose();
     }
@@ -66,7 +64,7 @@ function NewFlashcardModal({
             name={'back'}
             value={backValue}
           ></input>
-          <button className="btn" onClick={handleButton}>
+          <button className="btn" onClick={handleButton} type="button">
             Add card
           </button>
         </form>

@@ -16,10 +16,8 @@ function EditFlashcardModal({
   handleDeleteFlashcard: Function;
 }) {
   const modalRef = useRef<HTMLDialogElement>(null);
-  const [frontValue, setFrontValue] = useState(
-    currentEditFlashcard.front || '',
-  );
-  const [backValue, setBackValue] = useState(currentEditFlashcard.back || '');
+  const [frontValue, setFrontValue] = useState(currentEditFlashcard.front);
+  const [backValue, setBackValue] = useState(currentEditFlashcard.back);
 
   const handleEditButton = (e: any) => {
     e.preventDefault();
@@ -30,11 +28,14 @@ function EditFlashcardModal({
         handleEditFlashcard(flashcard._id, flashcard.front, flashcard.back);
       },
     );
-    onClose();
   };
 
-  const handleDeleteButton = (e: any) => {
-    e.preventDefault();
+  useEffect(() => {
+    setFrontValue(currentEditFlashcard.front);
+    setBackValue(currentEditFlashcard.back);
+  }, [setFrontValue, setBackValue, currentEditFlashcard]);
+
+  const handleDeleteButton = () => {
     setFrontValue('');
     setBackValue('');
     deleteFlashcard(currentEditFlashcard._id).then((deletedId) => {
@@ -50,8 +51,7 @@ function EditFlashcardModal({
     visible ? modalRef.current.showModal() : modalRef.current.close();
   }, [visible]);
 
-  const handleClose = (e: any) => {
-    e.preventDefault();
+  const handleClose = () => {
     if (onClose) {
       onClose();
     }
@@ -85,10 +85,10 @@ function EditFlashcardModal({
             name={'back'}
             value={backValue}
           ></input>
-          <button className="btn" onClick={handleEditButton}>
+          <button className="btn" onClick={handleEditButton} type="button">
             Edit card
           </button>
-          <button className="btn" onClick={handleDeleteButton}>
+          <button className="btn" onClick={handleDeleteButton} type="button">
             Delete card
           </button>
         </form>
